@@ -44,10 +44,13 @@ class App extends Component {
     this.setState({ famille })
   }
 
-  handleChange = (event) =>{
+
+  // Ont fait passé l'id dans l'event
+  handleChange = (event, id) =>{
     const famille = {...this.state.famille }
     const nom = event.target.value
-    famille.membre1.nom = nom
+    // ici ont fait passé l'id pour récupéré LE nom
+    famille[id].nom = nom
     this.setState({ famille })
   }
 
@@ -73,43 +76,40 @@ class App extends Component {
   }
 
   render () {
+    // Cacher ou afficher un élément enfant 
     const {famille, isShow} = this.state
-
     let description = null
     if (isShow){
       description = <strong>Je suis le plus puissante de l'umbrella Accademy !</strong> 
     }
-
+// ___________________________________________________________________________________________
     const liste = Object.keys(famille)
    
     .map(membre => (
       <Membre
       key= {membre}
+      handleChange= {event => this.handleChange (event, membre)}
       cacherNom = {() => this.cacherNom(membre)}
       nom = {famille[membre].nom}
-      age = {famille[membre].age}/>     
+      age = {famille[membre].age}/>
+          
     ))
 
     return (
       <div className='App'>
         <h1>L'Accademy Umbrella</h1>
-        <h3>Modifier nom membre 1</h3>
-        <input value = {famille.membre1.nom} onChange={this.handleChange} type="text"></input>
-        { liste }
-        <Membre nom = {famille.membre4.nom} age = {famille.membre4.age} >
-        { description }
         
+        { liste }
+        {/* <Membre nom = {famille.membre4.nom} age = {famille.membre4.age} >
+        { description }
           <button onClick={this.handleShowDescription} >
             {
               isShow ? 'Cacher' : 'Montrer'
             }
           </button>
-        </Membre>
-          <Button 
-          plusun={this.handleClick}/>
-
-          <h3>Modifier texte</h3>
-
+        </Membre> */}
+          {/* <Button 
+          plusun={this.handleClick}/> */}
       </div>
     )
   }
